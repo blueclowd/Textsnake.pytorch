@@ -200,14 +200,12 @@ def main():
 
     trainset = CustomText(
         data_root='data/{}'.format(cfg.dataset),
-        ignore_list=None,
         is_training=True,
         transform=Augmentation(size=cfg.input_size, mean=cfg.means, std=cfg.stds)
     )
 
     valset = CustomText(
         data_root='data/{}'.format(cfg.dataset),
-        ignore_list=None,
         is_training=False,
         transform=BaseTransform(size=cfg.input_size, mean=cfg.means, std=cfg.stds)
     )
