@@ -9,24 +9,16 @@ from dataset.dataload import TextDataset, TextInstance
 
 class CustomText(TextDataset):
 
-    def __init__(self, data_root, ignore_list=None, is_training=True, transform=None):
+    def __init__(self, data_root, is_training=True, transform=None):
 
         super().__init__(transform)
         self.data_root = data_root
         self.is_training = is_training
 
-        if ignore_list:
-            with open(ignore_list) as f:
-                ignore_list = f.readlines()
-                ignore_list = [line.strip() for line in ignore_list]
-        else:
-            ignore_list = []
-
         self.image_root = os.path.join(data_root, 'images', 'train' if is_training else 'val')
         self.annotation_root = os.path.join(data_root, 'gt', 'train' if is_training else 'val')
         self.image_list = os.listdir(self.image_root)
-        self.image_list = list(filter(lambda img: img.replace('.jpg', '') not in ignore_list, self.image_list))
-
+        # self.image_list = list(filter(lambda img: img.replace('.jpg', '') not in ignore_list, self.image_list))
 
     def parse_mat(self, mat_path):
         """
@@ -55,6 +47,11 @@ class CustomText(TextDataset):
         return polygons
 
     def load_json(self, json_path):
+        '''
+        Load and parse vgg json
+        :param json_path: json file path
+        :return: list of TextInstance
+        '''
 
         polygons = []
 
